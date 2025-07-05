@@ -3,7 +3,7 @@ name: Update RSS Feed
 on:
   schedule:
     - cron: "0 */12 * * *"  # Runs every 12 hours
-  workflow_dispatch:        # Allows manual triggering
+  workflow_dispatch:        # Allow manual run
 
 jobs:
   update:
@@ -18,24 +18,11 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: 📦 Install dependencies
+    - name: 📦 Install Python dependencies
       run: |
         pip install selenium beautifulsoup4
 
-    - name: 🧱 Install Chromium and ChromeDriver
-      run: |
-        sudo apt update
-        sudo apt install -y chromium-chromedriver
-
-    - name: 🔗 Fix ChromeDriver symlink
-      run: |
-        if [ ! -f /usr/bin/chromedriver ]; then
-          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
-        else
-          echo "✅ Chromedriver link already exists."
-        fi
-
-    - name: 🚀 Run RSS scraper script
+    - name: 🚀 Run scraper script
       run: |
         python dop_rss_hybrid.py
 
